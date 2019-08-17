@@ -35,9 +35,9 @@ Sometimes app can start to crash just at the beginning because of inconsistencie
 
 # Authors
 
-Jakub Vonšovský - programmer with weird name that for some inexplicable reason sounds Russian.
+**Jakub Vonšovský** - programmer with weird name that for some inexplicable reason sounds Russian.
                   I love programming and trying crazy things like eating octopus covered in her ink or highly unstable
                   experimental languages like React-Native.
                   You can contact me at jakub.vonsovsky@gmail.com.
 
-Robin Popov - Did Graphics
+**Robin Popov** - Did Graphics
