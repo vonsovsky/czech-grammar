@@ -10,13 +10,13 @@ import {
   ToastAndroid
 } from "react-native";
 import WebView from "react-native-webview";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 
-import GrammarParser from "../modules/GrammarParser.js"
+import GrammarParser from "../modules/GrammarParser.js";
 
 import datasource from "../assets/iy.json";
 
-const MAXIMUM_EXAMPLES = 20;  // 0 for unlimited
+const MAXIMUM_EXAMPLES = 20; // 0 for unlimited
 
 export default class GameScreen extends React.Component {
   state = {
@@ -35,22 +35,22 @@ export default class GameScreen extends React.Component {
     correctInTotal: 0,
     totalInRow: 0
   };
-  
+
   constructor(props) {
-      super(props);
-      
-      this.parser = new GrammarParser(datasource);
-      this.phrases = this.parser.parsePhrases();
+    super(props);
+
+    this.parser = new GrammarParser(datasource);
+    this.phrases = this.parser.parsePhrases();
   }
 
   _saveSelectedPhrase(phraseIndex) {
     this.setState({
-      required_letters: phrases[phraseIndex]['required'],
-      available_letters: phrases[phraseIndex]['groups'],
-      required_count: phrases[phraseIndex]['required'].length,
-      featuredText: phrases[phraseIndex]['featured'],
-      originalText: phrases[phraseIndex]['line'],
-      legend: phrases[phraseIndex]['legend'],
+      required_letters: phrases[phraseIndex]["required"],
+      available_letters: phrases[phraseIndex]["groups"],
+      required_count: phrases[phraseIndex]["required"].length,
+      featuredText: phrases[phraseIndex]["featured"],
+      originalText: phrases[phraseIndex]["line"],
+      legend: phrases[phraseIndex]["legend"],
       processed_count: 0
     });
   }
@@ -90,15 +90,20 @@ export default class GameScreen extends React.Component {
 
       const corrects = await AsyncStorage.getItem("@cor:" + today);
       const incorrects = await AsyncStorage.getItem("@inc:" + today);
-      const unfinishedPhraseIndex = await AsyncStorage.getItem("@settings:phrase_index");
+      const unfinishedPhraseIndex = await AsyncStorage.getItem(
+        "@settings:phrase_index"
+      );
 
       if (corrects !== null) {
         this.state.correct = parseInt(corrects);
         this.state.incorrect = parseInt(incorrects);
       }
 
-      if (unfinishedPhraseIndex === null || unfinishedPhraseIndex === -1 ||
-            unfinishedPhraseIndex >= this.phrases.length) {
+      if (
+        unfinishedPhraseIndex === null ||
+        unfinishedPhraseIndex === -1 ||
+        unfinishedPhraseIndex >= this.phrases.length
+      ) {
         this._selectRandomText();
       } else {
         this._saveSelectedPhrase(unfinishedPhraseIndex);
@@ -128,7 +133,10 @@ export default class GameScreen extends React.Component {
 
   _saveLastPhrase = async phraseIndex => {
     try {
-      await AsyncStorage.setItem("@settings:phrase_index", phraseIndex.toString());
+      await AsyncStorage.setItem(
+        "@settings:phrase_index",
+        phraseIndex.toString()
+      );
     } catch (error) {
       console.log(error);
       Alert.alert("Nemohu ukládat");
@@ -152,9 +160,9 @@ export default class GameScreen extends React.Component {
       phraseIsCorrect = false;
       fontColor = "red";
     }
-    
+
     if (this.parser.showFirstLetter()) {
-        selectedLetter = selectedLetter.substring(1);
+      selectedLetter = selectedLetter.substring(1);
     }
 
     featuredText = this.state.featuredText;
@@ -190,8 +198,8 @@ export default class GameScreen extends React.Component {
     } else {
       correctInRow = 0;
     }
-    
-    console.log('Show legend: ' + this.state.legend);
+
+    console.log("Show legend: " + this.state.legend);
 
     toastText = this._getMotivationalText(correctInRow);
     if (toastText.length > 0) {
@@ -200,7 +208,7 @@ export default class GameScreen extends React.Component {
         3,
         ToastAndroid.BOTTOM,
         0,
-        700
+        600
       );
     }
 
@@ -261,11 +269,13 @@ export default class GameScreen extends React.Component {
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <Text style={styles.scoreText}>
-            <Text style={{ color: "green" }}>{this.state.correctInTotal} / </Text>
-            <Text style={{ color: "red" }}>{this.state.totalInRow - this.state.correctInTotal}</Text>
-            {MAXIMUM_EXAMPLES > 0 && (
-                <Text> z celkem {MAXIMUM_EXAMPLES}</Text>
-            )}            
+            <Text style={{ color: "green" }}>
+              {this.state.correctInTotal} /{" "}
+            </Text>
+            <Text style={{ color: "red" }}>
+              {this.state.totalInRow - this.state.correctInTotal}
+            </Text>
+            {MAXIMUM_EXAMPLES > 0 && <Text> z celkem {MAXIMUM_EXAMPLES}</Text>}
           </Text>
           <WebView
             ref={WEBVIEW_REF => (WebViewRef = WEBVIEW_REF)}
@@ -273,6 +283,12 @@ export default class GameScreen extends React.Component {
             source={{ html: this._wrapPhraseInHTML(this.state.featuredText) }}
           />
         </View>
+
+        {this.state.processed_count == this.state.required_count && (
+          <View style={styles.legendContainer}>
+            <Text style={styles.legendText}>legend dummy text</Text>
+          </View>
+        )}
 
         {this.state.processed_count < this.state.required_count && (
           <View style={styles.iButtonsContainer}>
@@ -316,33 +332,44 @@ export default class GameScreen extends React.Component {
           </View>
         )}
 
-        {this.state.processed_count == this.state.required_count && !(MAXIMUM_EXAMPLES > 0 && this.state.totalInRow >= MAXIMUM_EXAMPLES) && (
-          <View style={styles.nextButtonContainer}>
-            <TouchableOpacity
-              onPress={() => this._onPressNext()}
-              style={styles.button}
-            >
-              <ImageBackground
-                source={require("../assets/images/ButtonShape.png")}
-                resizeMode="contain"
-                style={{ width: "100%", height: "100%" }}
+        {this.state.processed_count == this.state.required_count &&
+          !(
+            MAXIMUM_EXAMPLES > 0 && this.state.totalInRow >= MAXIMUM_EXAMPLES
+          ) && (
+            <View style={styles.nextButtonContainer}>
+              <TouchableOpacity
+                onPress={() => this._onPressNext()}
+                style={styles.button}
               >
-                <View style={styles.buttonTextWrapper}>
-                  <Text style={styles.buttonText}>Další</Text>
-                </View>
-              </ImageBackground>
-            </TouchableOpacity>
-          </View>
-        )}
-        {this.state.processed_count == this.state.required_count && MAXIMUM_EXAMPLES > 0 && this.state.totalInRow >= MAXIMUM_EXAMPLES && (
-          <View style={styles.iButtonsContainer}>
-            <View style={styles.buttonsContainer}>
-              <Text style={[styles.textContainer, styles.scoreText, styles.bigMargin]}>
-                Gratuluji!
-              </Text>
+                <ImageBackground
+                  source={require("../assets/images/ButtonShape.png")}
+                  resizeMode="contain"
+                  style={{ width: "100%", height: "100%" }}
+                >
+                  <View style={styles.buttonTextWrapper}>
+                    <Text style={styles.buttonText}>Další</Text>
+                  </View>
+                </ImageBackground>
+              </TouchableOpacity>
             </View>
-          </View>
-        )}
+          )}
+        {this.state.processed_count == this.state.required_count &&
+          MAXIMUM_EXAMPLES > 0 &&
+          this.state.totalInRow >= MAXIMUM_EXAMPLES && (
+            <View style={styles.iButtonsContainer}>
+              <View style={styles.buttonsContainer}>
+                <Text
+                  style={[
+                    styles.textContainer,
+                    styles.scoreText,
+                    styles.bigMargin
+                  ]}
+                >
+                  Gratuluji!
+                </Text>
+              </View>
+            </View>
+          )}
       </View>
     );
   }
@@ -403,5 +430,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     flex: 1,
     marginTop: 10
+  },
+  legendContainer: {},
+  legendText: {
+    textAlign: "center",
+    fontStyle: "italic",
+    fontSize: 20
   }
 });
