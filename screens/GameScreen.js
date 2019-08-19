@@ -208,7 +208,7 @@ export default class GameScreen extends React.Component {
         3,
         ToastAndroid.BOTTOM,
         0,
-        700
+        600
       );
     }
 
@@ -283,6 +283,12 @@ export default class GameScreen extends React.Component {
             source={{ html: this._wrapPhraseInHTML(this.state.featuredText) }}
           />
         </View>
+
+        {this.state.processed_count == this.state.required_count && (
+          <View style={styles.legendContainer}>
+            <Text style={styles.legendText}>legend dummy text</Text>
+          </View>
+        )}
 
         {this.state.processed_count < this.state.required_count && (
           <View style={styles.iButtonsContainer}>
@@ -424,5 +430,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     flex: 1,
     marginTop: 10
+  },
+  legendContainer: {},
+  legendText: {
+    textAlign: "center",
+    fontStyle: "italic",
+    fontSize: 20
   }
 });
