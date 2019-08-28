@@ -28,7 +28,7 @@ export default class HomeScreen extends React.Component {
           <View style={styles.botContainer}>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
-                onPress={() => navigate("Game")}
+                onPress={() => navigate("Choose")}
                 style={styles.button}
               >
                 <ImageBackground
