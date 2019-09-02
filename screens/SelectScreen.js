@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-export default class GameScreen extends React.Component {
+export default class SelectScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -14,7 +14,7 @@ export default class GameScreen extends React.Component {
         <View style={{ flex: 1, flexDirection: "column" }}>
           <View style={{ flex: 1, flexDirection: "row" }}>
             <TouchableOpacity
-              onPress={() => navigate("Game")}
+              onPress={() => navigate("Game", { module: 'iy'})}
               style={styles.button}
             >
               <ImageBackground
@@ -28,7 +28,7 @@ export default class GameScreen extends React.Component {
               </ImageBackground>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigate("Game")}
+              onPress={() => navigate("Game", { module: 'sz'})}
               style={styles.button}
             >
               <ImageBackground
@@ -37,14 +37,14 @@ export default class GameScreen extends React.Component {
                 style={{ width: "100%", height: "100%" }}
               >
                 <View style={styles.buttonTextWrapper}>
-                  <Text style={styles.buttonText}>Další</Text>
+                  <Text style={styles.buttonText}>S/Z</Text>
                 </View>
               </ImageBackground>
             </TouchableOpacity>
           </View>
           <View style={{ flex: 1, flexDirection: "row" }}>
             <TouchableOpacity
-              onPress={() => navigate("Game")}
+              onPress={() => navigate("Game", { module: 'uu'})}
               style={styles.button}
             >
               <ImageBackground
@@ -53,12 +53,12 @@ export default class GameScreen extends React.Component {
                 style={{ width: "100%", height: "100%" }}
               >
                 <View style={styles.buttonTextWrapper}>
-                  <Text style={styles.buttonText}>I/Y</Text>
+                  <Text style={styles.buttonText}>Ú/Ů</Text>
                 </View>
               </ImageBackground>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigate("Game")}
+              onPress={() => navigate("Game", { module: 'mevebe'})}
               style={styles.button}
             >
               <ImageBackground
