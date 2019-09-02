@@ -1,0 +1,67 @@
+{
+  "settings": {
+    "groups": ["mě | mně", "pě | pje", "bě | bje", "vě | vje"],
+    "show_first_letter": true
+  },
+  "legend": {
+    "1": "obsahuje 'pomn' nebo 'domn'",
+    "2": "kořen slova je vždy 'mě'",
+    "3": "2. a 4. pád - (bez) koho - je mě",
+    "4": "3. a 6. pád - komu, o kom - je mně",
+    "5": "vždy se píše 'pě', 'pje' neexistuje",
+    "6": "kořen slova je vždy 'bě'",
+    "7": "po předponě 'ob' vždy následuje 'je'",
+    "8": "kořen slova je vždy 'vě'",
+    "9": "po předponě 'v' vždy následuje 'je'"
+  },
+  "data": [
+    "[group 0]",
+    "jezdí rozu(mně) | od slova rozumný",
+    "žije skro(mně) | od slova skromný",
+    "zapo(mně)l své klíče doma | 1",
+    "ta(mě)jší kmen | od slova tam",
+    "zat(mě)ní Měsíce | od slova tma",
+    "rozu(mě)t látce | od slova rozumí",
+    "nejzná(mě)jší pavouk | od slova známý",
+    "(mě)sto Praha je krásné | 2",
+    "děravá pa(mě)ť | 2",
+    "ná(mě)t k filmu | 2",
+    "(mě)nič barev | 2",
+    "našli jsme u Brna po(mně)nky | 1",
+    "je to pouze do(mně)nka | 1",
+    "včera (mě) tam viděl | 3",
+    "pohladila (mě) po vlasech | 3",
+    "nechoďte tam beze (mě) | 3",
+    "beze (mě) nebude nic | 3",
+    "dej to (mně) | 4",
+    "(mně) to půjde lépe | 4",
+    "mluvíte o (mně)? | 4",
+    "ten film je o (mně) | 4",
+
+    "[group 1]",
+    "(pě)nkava obecná | 5",
+    "z(pě)v ve sprše | 5",
+    "vydělal jsem si (pě)tikorunu | 5",
+
+    "[group 2]",
+    "o(bje)l mu klíčem auto | 7",
+    "velký o(bje)ktiv na foťáku | 7",
+    "o(bje)kt je zabezpečen psy | 7",
+    "Tomáš zase o(bje)vil Ameriku | 7",
+    "vroucí o(bje)tí | 7",
+    "studený o(bě)d | 6",
+    "krevní o(bě)h | 6",
+    "o(bě)toval se pro skupinu | 6",
+    "na poli jsme našli (bě)láska | 6",
+    "(bě)žím jako o život | 6",
+
+    "[group 3]",
+    "vysoká a temná (vě)ž | 8",
+    "řežu si pod sebou (vě)tev | 8",
+    "po(vě)sím se za parapet | 8",
+    "(vě)da nám hodně pomáhá | 8",
+    "spadl jsem mezi k(vě)tiny | 8",
+    "zákaz (vje)zdu | 9",
+    "má otupené (vje)my | 9"
+  ]
+}

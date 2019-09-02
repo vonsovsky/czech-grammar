@@ -14,8 +14,6 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 import GrammarParser from "../modules/GrammarParser.js";
 
-import datasource from "../assets/iy.json";
-
 const MAXIMUM_EXAMPLES = 20; // 0 for unlimited
 
 export default class GameScreen extends React.Component {
@@ -39,8 +37,25 @@ export default class GameScreen extends React.Component {
   constructor(props) {
     super(props);
 
+    datasource = this._selectModule(this.props.navigation.getParam('module'));
     this.parser = new GrammarParser(datasource);
     this.phrases = this.parser.parsePhrases();
+  }
+
+  _selectModule(module) {
+    switch (module) {
+      case "iy":
+        return require("../assets/iy.json");
+      case "sz":
+        return require("../assets/sz.json");
+      case "mevebe":
+        return require("../assets/mevebe.json");
+      case "uu":
+        return require("../assets/uu.json");
+    }
+
+    console.log("Unsupported module was requested: " + module);
+    return "";
   }
 
   _saveSelectedPhrase(phraseIndex) {
