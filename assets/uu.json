@@ -1,0 +1,53 @@
+{
+  "settings": {
+    "groups": ["ú | ů"],
+    "show_first_letter": false
+  },
+  "legend": {
+    "1": "začátek slova je vždy 'ú'",
+    "2": "citoslovce je vždy 'ú'",
+    "3": "některá cizí slova se píší s 'ú'",
+    "4": "po předponách se píše 'ú'",
+    "5": "po začátku českých slov se píše 'ů'",
+  },
+  "data": [
+    "(ú)nor bílý, pole sílí | 1",
+    "včelí (ú)l | 1",
+    "slizký (ú)hoř | 1",
+    "pracovitý (ú)ředník | 1",
+    "(ú)roky ze zisku | 1",
+    "bez čepice dostaneš (ú)žeh | 1",
+    "holub dělá vrk(ú) | 2",
+    "krávy dělají b(ú) | 2",
+    "dlouhá t(ú)ra | 3",
+    "manik(ú)ra v salónu | 3",
+    "projel jsem se na sk(ú)tru | 3",
+    "ze sněhu si postavíme igl(ú) | 3",
+    "k jídlu dnes máme rag(ú) | 3",
+    "vy(ú)čtování za elektřinu | 4",
+    "Pentagon znamená pěti(ú)helník | 4",
+    "pravo(ú)hlý troj(ú)helník | 4",
+    "Karel je při běhu ne(ú)navný | 4",
+    "musíme na ně za(ú)točit z boku | 4",
+
+    "suchá p(ů)da | 5",
+    "ten pes je (ú)plná zr(ů)dička",
+    "udělá práci bez okolk(ů) | 5",
+    "mít tak zlatý d(ů)l | 5",
+    "nechte p(ů)tky stranou | 5",
+    "máš d(ů)lky, když se směješ | 5",
+    "jdeme dol(ů) | 5",
+    "běž už dom(ů) | 5",
+    "musíš vyr(ů)st, abys tam dosáhl | 5",
+    "z(ů)staň, kde jsi | 5",
+    "mouka patří do pytl(ů) | 5",
+    "je to jeho zlov(ů)le | 5",
+    "na safari se prohání malé sl(ů)ně | 5",
+    "maminčina v(ů)ně | 5",
+    "přes řeku vede m(ů)stek | 5",
+    "je to naše lib(ů)stka | 5",
+    "ta ruka ti musí sr(ů)st | 5",
+    "někde je dobré držet p(ů)st | 5",
+    "nemá v(ů)li, aby se držel od sladkostí | 5"
+  ]
+}

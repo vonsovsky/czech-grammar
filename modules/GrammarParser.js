@@ -1,5 +1,5 @@
-const regex = /\([a-zA-Zíýě]+\)/g;
-const regex_fl = /\(([a-zA-Zíýě])[a-zA-Zíýě]+\)/g;
+const regex = /\([a-zA-ZíýěúůÚŮ]+\)/g;
+const regex_fl = /\(([a-zA-ZíýěúůÚŮ])[a-zA-ZíýěúůÚŮ]+\)/g;
 
 export default class GrammarParser {
 
