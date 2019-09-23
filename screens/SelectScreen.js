@@ -10,31 +10,41 @@ export default class SelectScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View>
-        <View style={{ flex: 1, flexDirection: "column" }}>
-          <View style={{ flex: 1, flexDirection: "row" }}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          alignContent: "center",
+          alignItems: "center",
+          flexWrap: "wrap"
+        }}
+      >
+        <View style={styles.rowWrapper}>
+          <View style={{ flex: 1 }}>
             <TouchableOpacity
               onPress={() => navigate("Game", { module: 'iy'})}
               style={styles.button}
             >
               <ImageBackground
-                source={require("../assets/images/ButtonShape.png")}
+                source={require("../assets/images/ButtonShape_ChooseScreen.png")}
                 resizeMode="contain"
-                style={{ width: "100%", height: "100%" }}
+                style={styles.buttonImageBackground}
               >
                 <View style={styles.buttonTextWrapper}>
                   <Text style={styles.buttonText}>I/Y</Text>
                 </View>
               </ImageBackground>
             </TouchableOpacity>
+          </View>
+          <View style={{ flex: 1 }}>
             <TouchableOpacity
               onPress={() => navigate("Game", { module: 'sz'})}
               style={styles.button}
             >
               <ImageBackground
-                source={require("../assets/images/ButtonShape.png")}
+                source={require("../assets/images/ButtonShape_ChooseScreen.png")}
                 resizeMode="contain"
-                style={{ width: "100%", height: "100%" }}
+                style={styles.buttonImageBackground}
               >
                 <View style={styles.buttonTextWrapper}>
                   <Text style={styles.buttonText}>S/Z</Text>
@@ -42,48 +52,49 @@ export default class SelectScreen extends React.Component {
               </ImageBackground>
             </TouchableOpacity>
           </View>
-          <View style={{ flex: 1, flexDirection: "row" }}>
+        </View>
+        <View style={styles.rowWrapper}>
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity
+              onPress={() => navigate("Game", { module: 'mevebe'})}
+              style={styles.button}
+            >
+              <ImageBackground
+                source={require("../assets/images/ButtonShape_ChooseScreen.png")}
+                resizeMode="contain"
+                style={styles.buttonImageBackground}
+              >
+                <View style={styles.buttonTextWrapper}>
+                  <Text style={styles.buttonText}>Mě/Mně Bě/Bje</Text>
+                </View>
+              </ImageBackground>
+            </TouchableOpacity>
+          </View>
+          <View style={{ flex: 1 }}>
             <TouchableOpacity
               onPress={() => navigate("Game", { module: 'uu'})}
               style={styles.button}
             >
               <ImageBackground
-                source={require("../assets/images/ButtonShape.png")}
+                source={require("../assets/images/ButtonShape_ChooseScreen.png")}
                 resizeMode="contain"
-                style={{ width: "100%", height: "100%" }}
+                style={styles.buttonImageBackground}
               >
                 <View style={styles.buttonTextWrapper}>
                   <Text style={styles.buttonText}>Ú/Ů</Text>
                 </View>
               </ImageBackground>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigate("Game", { module: 'mevebe'})}
-              style={styles.button}
-            >
-              <ImageBackground
-                source={require("../assets/images/ButtonShape.png")}
-                resizeMode="contain"
-                style={{ width: "100%", height: "100%" }}
-              >
-                <View style={styles.buttonTextWrapper}>
-                  <Text style={styles.buttonText}>MeBeVe</Text>
-                </View>
-              </ImageBackground>
-            </TouchableOpacity>
           </View>
         </View>
+
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  button: {
-    marginHorizontal: 8,
-    height: 500,
-    width: 190
-  },
+  button: {},
   buttonText: {
     color: "white",
     fontSize: 20,
@@ -97,5 +108,19 @@ const styles = StyleSheet.create({
     right: 0,
     justifyContent: "center",
     alignItems: "center"
+  },
+  nextButtonContainer: {
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  rowWrapper: {
+    flex: 1,
+    flexDirection: "column",
+    width: 100,
+    height: 400
+  },
+  buttonImageBackground: {
+    width: "100%",
+    height: "100%"
   }
 });

@@ -301,7 +301,7 @@ export default class GameScreen extends React.Component {
 
         {this.state.processed_count == this.state.required_count && (
           <View style={styles.legendContainer}>
-            <Text style={styles.legendText}>legend dummy text</Text>
+            <Text style={styles.legendText}>{this.state.legend}</Text>
           </View>
         )}
 
