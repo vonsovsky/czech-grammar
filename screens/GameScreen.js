@@ -5,7 +5,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button,
   Alert,
   ToastAndroid
 } from "react-native";
@@ -37,7 +36,8 @@ export default class GameScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    datasource = this._selectModule(this.props.navigation.getParam("module"));
+    this.module = this.props.navigation.getParam("module")
+    datasource = this._selectModule(this.module);
     this.parser = new GrammarParser(datasource);
     this.phrases = this.parser.parsePhrases();
   }
@@ -103,8 +103,8 @@ export default class GameScreen extends React.Component {
     try {
       const today = this._today();
 
-      const corrects = await AsyncStorage.getItem("@cor:" + today);
-      const incorrects = await AsyncStorage.getItem("@inc:" + today);
+      const corrects = await AsyncStorage.getItem("@cor:" + this.module + ":" + today);
+      const incorrects = await AsyncStorage.getItem("@inc:" + this.module + ":" + today);
       const unfinishedPhraseIndex = await AsyncStorage.getItem(
         "@settings:phrase_index"
       );
@@ -133,11 +133,11 @@ export default class GameScreen extends React.Component {
     try {
       const today = this._today();
       await AsyncStorage.setItem(
-        "@cor:" + today,
+        "@cor:" + this.module + ":" + today,
         this.state.correct.toString()
       );
       await AsyncStorage.setItem(
-        "@inc:" + today,
+        "@inc:" + this.module + ":" + today,
         this.state.incorrect.toString()
       );
     } catch (error) {

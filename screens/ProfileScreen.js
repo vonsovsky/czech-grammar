@@ -1,19 +1,20 @@
 import React from "react";
 import {
   StyleSheet,
-  Text,
-  View,
-  Alert,
-  Button
+  Alert
 } from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default class ProfileScreen extends React.Component {
   state = {
-    correctsToday: 0,
-    incorrectsToday: 0,
-    corrects: 0,
-    incorrects: 0
+    generatedHTML: ""
+  };
+
+  modules = {
+    'iy': {'header': 'I/Y'},
+    'mevebe': {'header': 'Mě/Mně Bě/Bje'},
+    'sz': {'header': 'S/Z'},
+    'uu': {'header': 'Ú/Ů'}
   };
 
   _retrieveDataByKeys = async (corKeys, incKeys) => {
@@ -30,49 +31,90 @@ export default class ProfileScreen extends React.Component {
       incorrects.forEach(function(item) {
         incorrect += parseInt(item[1]);
       });
-
-      this.setState({
-        corrects: correct,
-        incorrects: incorrect
-      });
     } catch (error) {
       console.log(error);
       Alert.alert("Nemohu načíst skóre");
     }
+
+    return [correct, incorrect]
   };
 
+  _fillModulesWithScore = async (score) => {
+    var _this = this;
+    var today = this._today();
+
+    score.forEach(function(element) {
+      key = element[0];
+      value = element[1];
+
+      if (key.substring(1, 4) != 'cor' && key.substring(1, 4) != 'inc') {
+        return;
+      }
+
+      let modulePos = key.substring(5).indexOf(":");
+      let moduleName = key.substring(5, modulePos + 5);
+      if (modulePos == -1 || moduleName == '') {
+        return;
+      }
+
+      let saveToKey = key.substring(1, 4) == 'cor' ? 'correct' : 'incorrect';
+      let date = key.substring(modulePos + 6);
+      if (date == today) {
+        _this.modules[moduleName][saveToKey + "_today"] = parseInt(value);
+      }
+      
+      _this.modules[moduleName][saveToKey] += parseInt(value);
+    });
+  };
+
+  _generateHTMLFromModules = async() => {
+    generatedHTML = "";
+    totalCorrect = 0;
+    totalIncorrect = 0;
+    for (let module in this.modules) {
+      let percToday = this._calcPercentage(this.modules[module]['correct_today'], this.modules[module]['incorrect_today']);
+      let perc = this._calcPercentage(this.modules[module]['correct'], this.modules[module]['incorrect']);
+      totalCorrect += this.modules[module]['correct'];
+      totalIncorrect += this.modules[module]['incorrect'];
+      
+      generatedHTML += this.modules[module]['header'] + "<br />";
+      generatedHTML += "<font color='green'>Dobře dnes: " + this.modules[module]['correct_today'] + "</font><br />";
+      generatedHTML += "<font color='red'>Špatně dnes: " + this.modules[module]['incorrect_today'] + "</font><br />";
+      generatedHTML += "<font color='green'>Dobře celkem: " + this.modules[module]['correct'] + "</font><br />";
+      generatedHTML += "<font color='red'>Špatně celkem: " + this.modules[module]['incorrect'] + "</font><br />";
+      generatedHTML += "Úspěšnost dnes: " + percToday + " %<br />";
+      generatedHTML += "(Celkem: " + perc + " %)<br />";
+      generatedHTML += "<br />";
+    }
+
+    total = this._calcPercentage(totalCorrect, totalIncorrect);
+    generatedHTML += "Celkem: " + total + " %<br />";
+    generatedHTML += this._showEvaluation(total);
+    
+    this.setState({
+      generatedHTML: generatedHTML,
+    });
+
+  }
+
   _retrieveData = async () => {
+    for (let module in this.modules) {
+      this.modules[module]['correct_today'] = 0;
+      this.modules[module]['incorrect_today'] = 0;
+      this.modules[module]['correct'] = 0;
+      this.modules[module]['incorrect'] = 0;
+    }
+
     try {
-      const allKeys = await AsyncStorage.getAllKeys();
-      const today = this._today();
+      score = null
 
-      let correctsToday = await AsyncStorage.getItem("@cor:" + today);
-      let incorrectsToday = await AsyncStorage.getItem("@inc:" + today);
-
-      if (typeof(correctsToday) === "undefined" || correctsToday === null) {
-        correctsToday = 0;
-      }
-      if (typeof(incorrectsToday) === "undefined" || incorrectsToday === null) {
-        incorrectsToday = 0;
-      }
-
-      this.setState({
-        correctsToday: correctsToday,
-        incorrectsToday: incorrectsToday
+      AsyncStorage.getAllKeys((err, keys) => {
+        AsyncStorage.multiGet(keys, (err, stores) => {
+          score = stores;
+          this._fillModulesWithScore(score);
+          this._generateHTMLFromModules();
+        });
       });
-
-      let correctKeys = [];
-      let incorrectKeys = [];
-      allKeys.forEach(function(key) {
-        if (key.substring(1, 4) == "cor") {
-          correctKeys.push(key);
-        }
-        if (key.substring(1, 4) == "inc") {
-          incorrectKeys.push(key);
-        }
-      });
-
-      this._retrieveDataByKeys(correctKeys, incorrectKeys);
     } catch (error) {
       console.log(error);
       Alert.alert("Nemohu načíst skóre");
@@ -113,51 +155,12 @@ export default class ProfileScreen extends React.Component {
     this._retrieveData();
   }
 
-  bannerError() {
-    console.log("An error");
-    return;
-  }
-
   render() {
     return (
-      <View>
-        <View style={styles.textContainer}>
-          <Text style={styles.doneGoodValues}>
-            Dobře dnes:
-            <Text> {this.state.correctsToday}</Text>
-          </Text>
-          <Text style={styles.doneBadValues}>
-            Špatně dnes:
-            <Text> {this.state.incorrectsToday}</Text>
-          </Text>
-          <Text style={styles.doneGoodValues}>
-            Dobře celkem:
-            <Text> {this.state.corrects}</Text>
-          </Text>
-          <Text style={styles.doneBadValues}>
-            Špatně celkem:
-            <Text> {this.state.incorrects}</Text>
-          </Text>
-          <Text style={styles.textStyle}>
-            Úspěšnost dnes:{" "}
-            {this._calcPercentage(
-              this.state.correctsToday,
-              this.state.incorrectsToday
-            )}{" "}
-            %
-          </Text>
-          <Text style={styles.textStyle}>
-            (Celkem:{" "}
-            {this._calcPercentage(this.state.corrects, this.state.incorrects)}{" "}
-            %)
-          </Text>
-        </View>
-        <Text style={styles.motivationalText}>
-          {this._showEvaluation(
-            this._calcPercentage(this.state.corrects, this.state.incorrects)
-          )}
-        </Text>
-      </View>
+      <WebView
+        originWhitelist={["*"]}
+        source={{ html: this._wrapPhraseInHTML(this.state.generatedHTML) }}
+      />
     );
   }
 }
