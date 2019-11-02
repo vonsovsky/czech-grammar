@@ -1,9 +1,7 @@
 import React from "react";
-import {
-  StyleSheet,
-  Alert
-} from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
+import { StyleSheet, Alert } from "react-native";
+import WebView from "react-native-webview";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default class ProfileScreen extends React.Component {
   state = {
@@ -11,10 +9,10 @@ export default class ProfileScreen extends React.Component {
   };
 
   modules = {
-    'iy': {'header': 'I/Y'},
-    'mevebe': {'header': 'Mě/Mně Bě/Bje'},
-    'sz': {'header': 'S/Z'},
-    'uu': {'header': 'Ú/Ů'}
+    iy: { header: "I/Y" },
+    mevebe: { header: "Mě/Mně Bě/Bje" },
+    sz: { header: "S/Z" },
+    uu: { header: "Ú/Ů" }
   };
 
   _retrieveDataByKeys = async (corKeys, incKeys) => {
@@ -36,10 +34,10 @@ export default class ProfileScreen extends React.Component {
       Alert.alert("Nemohu načíst skóre");
     }
 
-    return [correct, incorrect]
+    return [correct, incorrect];
   };
 
-  _fillModulesWithScore = async (score) => {
+  _fillModulesWithScore = async score => {
     var _this = this;
     var today = this._today();
 
@@ -47,41 +45,59 @@ export default class ProfileScreen extends React.Component {
       key = element[0];
       value = element[1];
 
-      if (key.substring(1, 4) != 'cor' && key.substring(1, 4) != 'inc') {
+      if (key.substring(1, 4) != "cor" && key.substring(1, 4) != "inc") {
         return;
       }
 
       let modulePos = key.substring(5).indexOf(":");
       let moduleName = key.substring(5, modulePos + 5);
-      if (modulePos == -1 || moduleName == '') {
+      if (modulePos == -1 || moduleName == "") {
         return;
       }
 
-      let saveToKey = key.substring(1, 4) == 'cor' ? 'correct' : 'incorrect';
+      let saveToKey = key.substring(1, 4) == "cor" ? "correct" : "incorrect";
       let date = key.substring(modulePos + 6);
       if (date == today) {
         _this.modules[moduleName][saveToKey + "_today"] = parseInt(value);
       }
-      
+
       _this.modules[moduleName][saveToKey] += parseInt(value);
     });
   };
 
-  _generateHTMLFromModules = async() => {
+  _generateHTMLFromModules = async () => {
     generatedHTML = "";
     totalCorrect = 0;
     totalIncorrect = 0;
     for (let module in this.modules) {
-      let percToday = this._calcPercentage(this.modules[module]['correct_today'], this.modules[module]['incorrect_today']);
-      let perc = this._calcPercentage(this.modules[module]['correct'], this.modules[module]['incorrect']);
-      totalCorrect += this.modules[module]['correct'];
-      totalIncorrect += this.modules[module]['incorrect'];
-      
-      generatedHTML += this.modules[module]['header'] + "<br />";
-      generatedHTML += "<font color='green'>Dobře dnes: " + this.modules[module]['correct_today'] + "</font><br />";
-      generatedHTML += "<font color='red'>Špatně dnes: " + this.modules[module]['incorrect_today'] + "</font><br />";
-      generatedHTML += "<font color='green'>Dobře celkem: " + this.modules[module]['correct'] + "</font><br />";
-      generatedHTML += "<font color='red'>Špatně celkem: " + this.modules[module]['incorrect'] + "</font><br />";
+      let percToday = this._calcPercentage(
+        this.modules[module]["correct_today"],
+        this.modules[module]["incorrect_today"]
+      );
+      let perc = this._calcPercentage(
+        this.modules[module]["correct"],
+        this.modules[module]["incorrect"]
+      );
+      totalCorrect += this.modules[module]["correct"];
+      totalIncorrect += this.modules[module]["incorrect"];
+
+      generatedHTML += this.modules[module]["header"] + "<br />";
+      generatedHTML +=
+        "<font color='green'>Dobře dnes: " +
+        this.modules[module]["correct_today"] +
+        "</font><br />";
+      generatedHTML +=
+        "<font color='red'>Špatně dnes: " +
+        this.modules[module]["incorrect_today"] +
+        "</font><br />";
+      generatedHTML +=
+        "<font color='green'>Dobře celkem: " +
+        this.modules[module]["correct"] +
+        "</font><br />";
+      generatedHTML +=
+        "<font color='red'>Špatně celkem: " +
+        this.modules[module]["incorrect"] +
+        "</font><br />";
       generatedHTML += "Úspěšnost dnes: " + percToday + " %<br />";
       generatedHTML += "(Celkem: " + perc + " %)<br />";
       generatedHTML += "<br />";
@@ -90,23 +106,22 @@ export default class ProfileScreen extends React.Component {
     total = this._calcPercentage(totalCorrect, totalIncorrect);
     generatedHTML += "Celkem: " + total + " %<br />";
     generatedHTML += this._showEvaluation(total);
-    
-    this.setState({
-      generatedHTML: generatedHTML,
-    });
 
-  }
+    this.setState({
+      generatedHTML: generatedHTML
+    });
+  };
 
   _retrieveData = async () => {
     for (let module in this.modules) {
-      this.modules[module]['correct_today'] = 0;
-      this.modules[module]['incorrect_today'] = 0;
-      this.modules[module]['correct'] = 0;
-      this.modules[module]['incorrect'] = 0;
+      this.modules[module]["correct_today"] = 0;
+      this.modules[module]["incorrect_today"] = 0;
+      this.modules[module]["correct"] = 0;
+      this.modules[module]["incorrect"] = 0;
     }
 
     try {
-      score = null
+      score = null;
 
       AsyncStorage.getAllKeys((err, keys) => {
         AsyncStorage.multiGet(keys, (err, stores) => {
@@ -153,6 +168,11 @@ export default class ProfileScreen extends React.Component {
 
   componentWillMount() {
     this._retrieveData();
+  }
+  _wrapPhraseInHTML(phrase) {
+    return (
+      '<div style="text-align: center; font-size: 70px;">' + phrase + "</div"
+    );
   }
 
   render() {
