@@ -116,8 +116,7 @@ const styles = StyleSheet.create({
   rowWrapper: {
     flex: 1,
     flexDirection: "column",
-    width: 100,
-    height: 400
+    justifyContent: 'space-between',
   },
   buttonImageBackground: {
     width: "100%",
