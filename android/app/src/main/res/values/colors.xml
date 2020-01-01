@@ -2,4 +2,5 @@
 <resources>
 	<color name="cviceni_header">#1B5E20</color>
 	<color name="cviceni_bg">#fff</color>
+	<color name="yellow">#FFE780</color>
 </resources>

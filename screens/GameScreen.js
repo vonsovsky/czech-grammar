@@ -296,7 +296,7 @@ export default class GameScreen extends React.Component {
             </Text>
             {MAXIMUM_EXAMPLES > 0 && <Text> z celkem {MAXIMUM_EXAMPLES}</Text>}
           </Text>
-          <WebView
+          <WebView style={styles.textView}
             ref={WEBVIEW_REF => (WebViewRef = WEBVIEW_REF)}
             originWhitelist={["*"]}
             source={{ html: this._wrapPhraseInHTML(this.state.featuredText) }}
@@ -397,15 +397,15 @@ export default class GameScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: '#ffe780'
   },
   textContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "stretch"
   },
-  textStyle: {
-    flex: 1
+  textView: {
+    backgroundColor: '#ffe780'
   },
   iButtonsContainer: {
     flex: 1,
