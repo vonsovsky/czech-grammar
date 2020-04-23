@@ -16,7 +16,8 @@ export default class SelectScreen extends React.Component {
           flexDirection: "row",
           alignContent: "center",
           alignItems: "center",
-          flexWrap: "wrap"
+          flexWrap: "wrap",
+          backgroundColor: '#FFE780'
         }}
       >
         <View style={styles.rowWrapper}>

@@ -81,7 +81,7 @@ export default class ProfileScreen extends React.Component {
       totalCorrect += this.modules[module]["correct"];
       totalIncorrect += this.modules[module]["incorrect"];
 
-      generatedHTML += this.modules[module]["header"] + "<br />";
+      generatedHTML += "<h3>" + this.modules[module]["header"] + "</h3>";
       generatedHTML +=
         "<font color='green'>Dobře dnes: " +
         this.modules[module]["correct_today"] +
@@ -100,11 +100,11 @@ export default class ProfileScreen extends React.Component {
         "</font><br />";
       generatedHTML += "Úspěšnost dnes: " + percToday + " %<br />";
       generatedHTML += "(Celkem: " + perc + " %)<br />";
-      generatedHTML += "<br />";
+      generatedHTML += "<br /><hr />";
     }
 
     total = this._calcPercentage(totalCorrect, totalIncorrect);
-    generatedHTML += "Celkem: " + total + " %<br />";
+    generatedHTML += "<h3>Celkem: " + total + " %</h3>";
     generatedHTML += this._showEvaluation(total);
 
     this.setState({
@@ -171,13 +171,13 @@ export default class ProfileScreen extends React.Component {
   }
   _wrapPhraseInHTML(phrase) {
     return (
-      '<div style="text-align: center; font-size: 70px;">' + phrase + "</div"
+      '<div style="text-align: left; font-size: 50px;">' + phrase + '</div>'
     );
   }
 
   render() {
     return (
-      <WebView
+      <WebView style={styles.container}
         originWhitelist={["*"]}
         source={{ html: this._wrapPhraseInHTML(this.state.generatedHTML) }}
       />
@@ -187,30 +187,7 @@ export default class ProfileScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#000",
-    color: "#f00"
+    backgroundColor: "#ffe780",
+    color: "#000"
   },
-  textStyle: {
-    marginBottom: 4,
-    fontSize: 30
-  },
-  textContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20
-  },
-  doneGoodValues: {
-    color: "green",
-    fontSize: 30
-  },
-  doneBadValues: {
-    color: "red",
-    fontSize: 30
-  },
-  motivationalText: {
-    marginTop: 20,
-    fontSize: 30,
-    marginLeft: 40
-  }
 });
