@@ -40,4 +40,5 @@ Sometimes app can start to crash just at the beginning because of inconsistencie
                   experimental languages like React-Native.
                   You can contact me at jakub.vonsovsky@gmail.com.
 
-**Robin Popov** - Did Graphics
+**Robin Popov** - programmer with truly Russian sounding name.
+                Did layout and surface processing
